@@ -1,22 +1,20 @@
 package proj.atrue.tenth;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.Nullable;
 
+
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import okhttp3.Cache;
-import okhttp3.Headers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -35,7 +33,7 @@ public class TenthApi {
                     .baseUrl(BuildConfig.API_URL)
                     .client(getOkHttpClient(context))
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
             sTenthApiInterface = restAdapter.create(TenthApiInterface.class);
         }
@@ -45,9 +43,9 @@ public class TenthApi {
 
     private static OkHttpClient getOkHttpClient(Context context) {
             OkHttpClient.Builder okClientBuilder = new OkHttpClient.Builder();
-            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-            httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BASIC);
-            okClientBuilder.addInterceptor(httpLoggingInterceptor);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okClientBuilder.addInterceptor(interceptor);
             final @Nullable File baseDir = context.getCacheDir();
             if (baseDir != null) {
                 final File cacheDir = new File(baseDir, "HttpResponseCache");
@@ -65,7 +63,7 @@ public class TenthApi {
 
 
         @GET
-        Observable<Object> executeFullUrlCall(@Url String url);
+        Observable<Response<ResponseBody>> getUrLData(@Url String url);
 
     }
 }
