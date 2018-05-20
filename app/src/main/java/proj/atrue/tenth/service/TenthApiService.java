@@ -1,4 +1,4 @@
-package proj.atrue.tenth;
+package proj.atrue.tenth.service;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -12,6 +12,7 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import proj.atrue.tenth.BuildConfig;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

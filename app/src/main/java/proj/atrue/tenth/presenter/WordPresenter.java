@@ -1,4 +1,4 @@
-package proj.atrue.tenth;
+package proj.atrue.tenth.presenter;
 
 import android.content.Context;
 
@@ -14,6 +14,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
+import proj.atrue.tenth.service.TenthApiService;
+import proj.atrue.tenth.view.WordView;
 import retrofit2.Response;
 
 public class WordPresenter {
@@ -36,6 +38,7 @@ public class WordPresenter {
 
     public void  getData()
     {
+        wordView.loadingState();
         wordService.getApi(context).getUrLData(URL)
             .subscribeOn(Schedulers.io())
             .map(new Function<Response<ResponseBody>, String>() {
@@ -54,17 +57,13 @@ public class WordPresenter {
                     @Override
                     public void onNext(String result) {
                         wordCounter(result);
-
-
                         everyTenth(result);
-
-
                         tenthWord(result);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        wordView.errorState();
                     }
 
                     @Override
@@ -195,7 +194,7 @@ public class WordPresenter {
 
                     @Override
                     public void onNext(String s) {
-                        wordView.everyTenthReady(s);
+                        wordView.tenthReady(s);
                     }
 
                     @Override

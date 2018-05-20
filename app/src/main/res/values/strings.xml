@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tenth</string>
+    <string name="info_loading_fail">Loading failed</string>
 </resources>
